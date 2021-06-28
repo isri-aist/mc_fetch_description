@@ -1,6 +1,5 @@
 <?xml version="1.0" ?>
-<robot name="left_hand">
-  
+<robot name="fetch">
   <planar_surface name="Gripper" link="gripper_link">
     <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0" />
     <points>
@@ -12,5 +11,4 @@
     </points>
     <material name="plastic" />
   </planar_surface>
-
 </robot>

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<robot name="fetch">
+  <planar_surface name="MobileBase" link="base_link">
+    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.0014" />
+    <points>
+      <!-- 508mm x 559mm (TODO: adjust) -->
+      <point xy="-0.2795 -0.254" />
+        <point xy="0.2795 -0.254" />
+        <point xy="0.2795 0.254" />
+        <point xy="-0.2795 0.254" />
+    </points>
+    <material name="plastic" />
+  </planar_surface>
+</robot>
