@@ -25,21 +25,27 @@ echo "Running generate_convex.sh script from directory `pwd`"
 
 function generate_convexes()
 {
-  # Generate convexes (convert to qhull's pointcloud and compute convex hull file)
-  for mesh in ${org_path}/meshes/*.dae
-  do
-    mesh_name=`basename -- "$mesh"`
-    mesh_name="${mesh_name%.*}"
-    echo "-- Generating convex hull for ${mesh}"
-    mkdir -p ${tmp_path}/qc/${robot_name}
-    mkdir -p ${gen_path}/convex/${robot_name}
-    gen_cloud=${tmp_path}/qc/${robot_name}/$mesh_name.qc
-    gen_convex=${gen_path}/convex/${robot_name}/${mesh_name}-ch.txt
-    mesh_sampling ${mesh} ${gen_cloud} --type xyz --samples ${sample_points}
-    exit_if_error "Failed to sample pointcloud from mesh ${mesh} to ${gen_cloud}"
-    qconvex TI ${gen_cloud} TO ${gen_convex} Qt o f
-    exit_if_error "Failed to compute convex hull pointcloud from point cloud ${gen_cloud} to ${gen_convex}"
-  done
+    # List target mesh files
+    daefiles=`find ${org_path}/meshes/ -type f -regex ".*dae$"`
+    stlfiles=`find ${org_path}/meshes/ -type f -regex ".*STL$" ! -regex ".*_collision\.STL$"` # exclude *_collision.STL because they are duplicate with dae files
+    targets="${daefiles} ${stlfiles}"
+    echo ${targets}
+    
+    # Generate convexes (convert to qhull's pointcloud and compute convex hull file)
+    for mesh in ${targets}
+    do
+        mesh_name=`basename -- "$mesh"`
+        mesh_name="${mesh_name%.*}"
+        echo "-- Generating convex hull for ${mesh}"
+        mkdir -p ${tmp_path}/qc/${robot_name}
+        mkdir -p ${gen_path}/convex/${robot_name}
+        gen_cloud=${tmp_path}/qc/${robot_name}/$mesh_name.qc
+        gen_convex=${gen_path}/convex/${robot_name}/${mesh_name}-ch.txt
+        mesh_sampling ${mesh} ${gen_cloud} --type xyz --samples ${sample_points}
+        exit_if_error "Failed to sample pointcloud from mesh ${mesh} to ${gen_cloud}"
+        qconvex TI ${gen_cloud} TO ${gen_convex} Qt o f
+        exit_if_error "Failed to compute convex hull pointcloud from point cloud ${gen_cloud} to ${gen_convex}"
+    done
 }
 
 generate_convexes
