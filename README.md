@@ -5,6 +5,7 @@ Fetch robot has urdf, collada and meshes in the original `fetch_description` pac
 It contains the following directories:
 - `convex/`: convex hulls (generated from pointclouds sampled from the dae meshes)
 - `rsdf/`: Special urdf-like format describing surfaces attached to links on the robot
+- `launch/`: launch file and rviz file
 
 ## Installation
 
@@ -32,3 +33,13 @@ To run the conversion, simply run
 cd scripts
 ./generate_convex.sh
 ```
+If your catkin environment is sourced `source ~/catkin_ws/install/setup.bash`, the robot model will be available to all ROS tools, and mc_rtc robot module.
+
+To display the robot, you can use:
+
+```
+$ roslaunch mc_fetch_description display_fetch.launch
+```
+
+ - If you have mc_rtc and the corresponding robot module installed, you can use the `convexes:=True` or `surfaces:=True` arguments to display the robot convexes and surfaces.
+
